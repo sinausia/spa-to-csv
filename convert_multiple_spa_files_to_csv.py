@@ -27,7 +27,7 @@ if not dataframes:
     print("No dataframes were created. Check the .SPA files")
     exit()
 
-print(f"Successfully processed {len(dataframes)} files.")
+print(f"Successfully processed {len(dataframes)} files. Merging them, hold a sec")
 
 final_df = dataframes[0]
 for i, df in enumerate(dataframes[1:], start=2):
