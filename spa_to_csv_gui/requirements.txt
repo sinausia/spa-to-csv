@@ -1,3 +1,0 @@
-spectrochempy
-pandas
-numpy
