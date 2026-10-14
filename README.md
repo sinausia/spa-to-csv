@@ -1,4 +1,46 @@
-When working with a Nicolet spectrophotometer, the files created are in spa format. While these files can be saved as a csv from the Omnic software, when saving multiple (thousands) of spectra from a split series experiment, it can get tedious to save them manually one at a time as csv. Thus, I created these python scripts to convert them to csv. Due to power limitations, when saving multiple files as a single csv file, instead of saving all the spectra directly into a single file I decided to first convert each spa file individually and then to export them into a joint csv file, where the first column shows the wavenumbers. 
-Notice that I specified the wavenumbers that I work with, you may need to change that. When trying to read the wavenumbers from the spa file instead, the computer crashed, so I incorporated them manually.
+# SPA to CSV converter
 
-You will need to install spectrochempy, which works with python 3.9 and 3.10
+Combines every `.SPA` file in a folder (OMNIC/Thermo FTIR spectra) into a single CSV:
+the first column is `Wavenumber` and each following column is one spectrum,
+named after its file.
+
+## Installation
+
+You need Python 3.9 or newer. Install the dependencies once:
+
+```
+pip install -r requirements.txt
+```
+
+(or `conda install -c spectrocat spectrochempy` if you use conda)
+
+## Usage with the window (recommended)
+
+```
+python run_gui.py
+```
+
+1. **Browse...** to select the folder that contains the `.SPA` files.
+2. Choose where to save the CSV. A default name is suggested automatically.
+3. Leave **Wavenumbers → Read from the .SPA files** selected. The wavenumber
+   axis (number of points, start and end) is read from the files themselves.
+   Use **Manual range** only if you need an evenly spaced axis between two values.
+4. Click **Convert**. Progress and any errors are shown in the log.
+
+## Usage from the terminal
+
+```
+python run_cli.py /path/to/spa_folder
+python run_cli.py /path/to/spa_folder -o /path/to/output.csv
+python run_cli.py /path/to/spa_folder --range 4000.188 649.90
+```
+
+## Files
+
+| File            | What it does                                          |
+|-----------------|-------------------------------------------------------|
+| `run_gui.py`    | Starts the window                                     |
+| `run_cli.py`    | Command-line version                                  |
+| `gui.py`        | The Tkinter window                                    |
+| `converter.py`  | Finds the files, reads them in parallel, merges, saves |
+| `spa_reader.py` | Reads one `.SPA` file and its wavenumber axis         |
