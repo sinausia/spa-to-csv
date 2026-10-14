@@ -1,0 +1,16 @@
+#!/bin/bash
+# Starts run_gui.py from the folder that contains this app.
+# Apps opened from Finder don't see the Terminal PATH, so look for Python in the usual places.
+TOOL_DIR="$(cd "$(dirname "$0")/../../.." && pwd)"
+LOG="$HOME/Library/Logs/SPA to CSV.log"
+
+for PY in "$HOME/anaconda3/bin/python" "$HOME/miniconda3/bin/python" "$HOME/opt/anaconda3/bin/python" \
+          "$HOME/miniforge3/bin/python" "/opt/anaconda3/bin/python" "/opt/homebrew/bin/python3" \
+          "/usr/local/bin/python3" "/usr/bin/python3"; do
+    if [ -x "$PY" ] && "$PY" -c "import importlib.util as u, sys; sys.exit(not all(u.find_spec(m) for m in ['spectrochempy', 'pandas', 'tkinter']))" 2>/dev/null; then
+        cd "$TOOL_DIR"
+        exec "$PY" run_gui.py >"$LOG" 2>&1
+    fi
+done
+
+osascript -e 'display alert "SPA to CSV could not start" message "No Python installation with the required packages (spectrochempy, pandas, tkinter) was found. See README.md for installation instructions." as critical'
