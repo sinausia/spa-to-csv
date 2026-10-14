@@ -1,5 +1,9 @@
 # SPA to CSV converter
 
+# Just download the folder and double click on either the Mac or Windows app
+
+
+
 Combines every `.SPA` file in a folder (OMNIC/Thermo FTIR spectra) into a single CSV:
 the first column is `Wavenumber` and each following column is one spectrum,
 named after its file.
